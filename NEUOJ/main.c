@@ -2,66 +2,119 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct student
+typedef struct student
 {
-    int id;
-    int score;
-    struct student * next;
-};
+    char name[20];
+    struct student *next;
+}stu;
+
+stu *creat(int n)
+{
+    stu *head = NULL;
+    stu *previous, *current;
+
+    for(int i = 0; i < n; i++)
+    {
+        current = (struct student *)malloc(sizeof(struct student));
+        scanf("%s", &current->name);
+        current->next = NULL;
+
+        if(head == NULL)
+            head = current;
+        else
+            previous->next = current;
+        previous = current;
+    }
+    return head;
+}
+
+void print(stu *current)
+{
+    printf("%s", current->name);
+    current = current->next;
+    while(current != NULL)
+    {
+        printf(" %s", current->name);
+        current = current->next;
+    }
+    printf("\n");
+}
 
 int main()
 {
-    int a, b, n, temp;
-    struct student * head = NULL;
-    struct student * previous, * current;
-    struct student * times, * min;
-
-    while(scanf("%d %d", &a, &b) != EOF)
+    int n1, n2, n3, flag;
+    stu *a, *b, *c, *temp;
+    stu *previous, *current, *i;
+    while(scanf("%d %d %d", &n1, &n2, &n3) != EOF)
     {
-        n = a + b;
-        for(int i = 0; i < n; i++)
-        {
-            current = (struct student *)malloc(sizeof(struct student));
-            if(head == NULL)
-                head = current;
-            else
-                previous->next = current;
-            current->next = NULL;
-            scanf("%d %d", &current->id, &current->score);
-            previous = current;
-        }
+        a = creat(n1);
+        b = creat(n2);
+        c = creat(n3);
 
-        times = head;
-        while(times->next != NULL)
-        {
-            min = times;
-            current = times->next;
-
-            while(current != NULL)
-            {
-                if(min->id > current->id)
-                    min = current;
-                current = current->next;
-            }
-
-            temp = times->id;
-            times->id = min->id;
-            min->id = temp;
-
-            temp = times->score;
-            times->score = min->score;
-            min->score = temp;
-
-            times = times->next;
-        }
-
-        current = head;
+        current = b;
         while(current != NULL)
         {
-            printf("%d %d\n", current->id, current->score);
-            free(current);
-            current = current->next;
+            i = a;
+            flag = 0;
+            while(i != NULL)
+            {
+                if((strcmp(current->name, i->name)) == 0)
+                {
+                    flag = 1;
+                    break;
+                }
+                i = i->next;
+            }
+
+            if(flag == 0)
+            {
+                if(current == b)
+                    b = b->next;
+                else
+                    previous->next = current->next;
+                current = current->next;
+            }
+            else
+            {
+                previous = current;
+                current = current->next;
+            }
         }
+
+        current = b;
+        while(current != NULL)
+        {
+            i = c;
+            flag = 0;
+            while(i != NULL)
+            {
+                if((strcmp(current->name, i->name)) == 0)
+                {
+                    flag = 1;
+                    break;
+                }
+                i = i->next;
+            }
+
+            if(flag == 1)
+            {
+                if(current == b)
+                    b = b->next;
+                else
+                    previous->next = current->next;
+                current = current->next;
+            }
+            else
+            {
+                previous = current;
+                current = current->next;
+            }
+        }
+
+        if(b != NULL)
+            print(b);
+        else
+            printf("No enemy spy\n");
     }
     return 0;
 }
