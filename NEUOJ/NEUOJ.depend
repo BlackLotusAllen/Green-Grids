@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1555245774 source:c:\users\blacklotus_al\documents\github\green-grids\neuoj\main.c
+1557038013 source:c:\users\blacklotus_al\documents\github\green-grids\neuoj\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<math.h>
 
